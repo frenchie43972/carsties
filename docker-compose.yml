@@ -9,3 +9,9 @@ services:
       - pgdata:/var/lib/postgresql/data
 volumes:
   pgdata:
+
+  # To run this file open the terminal to the directory the compose file is in
+  # and 'docker compose up -d'
+  # Make sure no other instance of Postgres is running or you will get
+  # an authentication error  28P01: password authentication failed for user "postgres"
+  # Running service.msc will show the extra instance.
