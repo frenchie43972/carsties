@@ -3,19 +3,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuctionServices;
 
+// A utility calss for initializing the DB with the necessary data at 
+// the start of the application
 public class DbInitializer
 {
+  // Initializes the DB. It will be called when the app starts and ensures the
+  // DB is in a ready state  
   public static void InitDb(WebApplication app)
   {
+    // Cteates a new scope because the method operates outside the request scope
     using var scope = app.Services.CreateScope();
-
+    
+    // Calls SeedData method and gets the AuctionDbContext service to populate
+    // initial data if empty
     SeedData(scope.ServiceProvider.GetService<AuctionDbContext>());
   }
 
+  // Seeds the inital data if the DB is empty
   private static void SeedData(AuctionDbContext context)
   {
+    // Ensures the database is created and all migrations applied
     context.Database.Migrate();
-
+    
+    // Checks if there are already Auction entries in the DB preventing
+    // Re-Seeding the DB
     if (context.Auctions.Any())
     {
       Console.WriteLine("Already have data - no need to seed.");
@@ -204,8 +215,12 @@ public class DbInitializer
             }
     };
 
+    // The AddRange method adds a collection of auction entities to the DbContext instance
+    // It is used for adding multiple entities at once to the underlying DB set
+    // 'auctions' contains all Auction List records to be added
     context.AddRange(auctions);
 
+    // Saves changes to the DB
     context.SaveChanges();
   }
 }

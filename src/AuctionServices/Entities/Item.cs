@@ -2,7 +2,8 @@
 
 namespace AuctionServices;
 
-[Table("Items")]
+// Specifies the DB table name that thi smodel will map to
+[Table("Items")] 
 
 public class Item
 {
